@@ -1,0 +1,1 @@
+// Document management APIs - Document content operations
