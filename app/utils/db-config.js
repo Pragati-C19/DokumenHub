@@ -6,7 +6,8 @@ const dbConfig = {
     database: process.env.MYSQL_DATABASE,
   },
   mongodb : {
-    uri: process.env.MONGODB_URI
+    uri: process.env.MONGODB_URI,
+    database: process.env.MONGODB_DATABASE,
   }
 };
 
