@@ -2,6 +2,7 @@
 
 import React from 'react';
 import './styles/globals.css';
+import Header from './components/header'
 
 const RootLayout = ({ children }) => {
   return (
@@ -13,9 +14,7 @@ const RootLayout = ({ children }) => {
         />
       </head>
       <body className="bg-gray-100">
-        <header className="bg-gray-800 text-white p-4">
-          <h1 className="text-xl">DokumenHub</h1>
-        </header>
+        <Header />
         <main>{children}</main>
         <footer className="bg-gray-800 text-white p-4">
           <p>&copy; 2024 DokumenHub</p>
