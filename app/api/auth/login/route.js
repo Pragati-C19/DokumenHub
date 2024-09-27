@@ -1,46 +1,33 @@
 // Authentication-related APIs - Google login route
 
-// app/api/auth/login/route.js
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import db from "../../../utils/mysql-connection"; // Import MySQL connection
+import { checkMySQLConnection } from "../../../utils/mysql-connection";
 
-const handler = NextAuth({
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
-  callbacks: {
-    async signIn({ user }) {
-      return new Promise((resolve, reject) => {
-        // Query to find user by Google ID
-        db.query("SELECT * FROM Users WHERE google_auth_id = ?", [user.id])
-          .then(([rows]) => {
-            if (rows.length > 0) {
-              resolve(true); // User exists, allow sign in
-            } else {
-              // User does not exist, create a new user
-              db.query(
-                "INSERT INTO Users (email, user_name, google_auth_id, created_at) VALUES (?, ?, ?, ?)",
-                [user.email, user.name, user.id, new Date()]
-              )
-                .then(() => resolve(true)) // User created successfully
-                .catch((error) => {
-                  console.error("Error creating user:", error);
-                  reject(false); // Deny sign in due to error
-                });
-            }
-          })
-          .catch((error) => {
-            console.error("Error querying user:", error);
-            reject(false); // Deny sign in due to query error
-          });
-      });
-    },
-  },
-});
+const loginUser = async (req, res) => {
+  if (req.method === "POST") {
+    const { user_name, email, profile_image, google_auth_id } = req.body;
 
-// Export the API route
-export { handler as POST }; // Only POST method for login
+    try {
+      const db = await checkMySQLConnection();
+      const [existingUser] = await db.query(
+        "SELECT user_name, user_email, profile_image, google_auth_id FROM users_table WHERE google_auth_id = ?",
+        [google_auth_id]
+      );
+
+      if (!existingUser) {
+        await db.query(
+          "INSERT INTO Users (user_name, user_email, profile_image, google_auth_id, created_at) VALUES (?, ?, ?, ?, NOW())",
+          [user_name, email, profile_image, google_auth_id]
+        );
+      }
+
+      res.status(200).json({ statusCode: 200, message: "User authenticated and stored!" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ statusCode: 500, message: "Error storing user in database." });
+    }
+  } else {
+    res.status(405).json({ statusCode: 405, message: "Method not allowed." });
+  }
+}
+
+export default loginUser
