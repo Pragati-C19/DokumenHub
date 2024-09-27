@@ -13,21 +13,25 @@ const loginUser = async (req, res) => {
         [google_auth_id]
       );
 
-      if (!existingUser) {
+      if (!existingUser.length) {
         await db.query(
-          "INSERT INTO Users (user_name, user_email, profile_image, google_auth_id, created_at) VALUES (?, ?, ?, ?, NOW())",
+          "INSERT INTO users_table (user_name, user_email, profile_image, google_auth_id, created_at) VALUES (?, ?, ?, ?, NOW())",
           [user_name, email, profile_image, google_auth_id]
         );
       }
 
-      res.status(200).json({ statusCode: 200, message: "User authenticated and stored!" });
+      res
+        .status(200)
+        .json({ statusCode: 200, message: "User authenticated and stored!" });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ statusCode: 500, message: "Error storing user in database." });
+      res
+        .status(500)
+        .json({ statusCode: 500, message: "Error storing user in database." });
     }
   } else {
     res.status(405).json({ statusCode: 405, message: "Method not allowed." });
   }
-}
+};
 
-export default loginUser
+export default loginUser;
