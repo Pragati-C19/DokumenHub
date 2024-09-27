@@ -23,7 +23,7 @@ const useGoogleLogin = () => {
         };
 
         return fetch("/api/auth/login", {
-          method: "GET",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
