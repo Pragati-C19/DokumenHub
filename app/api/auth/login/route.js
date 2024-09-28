@@ -26,14 +26,21 @@ export async function POST(req) {
         "INSERT INTO users_table (user_name, user_email, profile_image, google_auth_id, created_at) VALUES (?, ?, ?, ?, NOW())",
         [user_name, email, profile_image, google_auth_id]
       );
-    }
 
-    return NextResponse.json({
-      statusCode: 200,
-      message: "User authenticated and stored!",
-    });
+      return NextResponse.json({
+        statusCode: 200,
+        message: "User authenticated and stored!",
+      });
+    } else {
+      // If the user already exists, return a different message
+      return NextResponse.json({
+        statusCode: 200,
+        message: "User already exists.",
+      });
+    }
   } catch (error) {
-    console.error(error);
+    console.error("Error in POST /api/auth/login: ", error);
+
     return NextResponse.json({
       statusCode: 500,
       message: "Error storing user in database.",
