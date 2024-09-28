@@ -35,6 +35,7 @@ const useGoogleLogin = () => {
         if (!response.ok) {
           throw new Error("Failed to save user in the database.");
         }
+        console.log("User Login successfully.");
         return response.json();
       })
       .catch((error) => {
