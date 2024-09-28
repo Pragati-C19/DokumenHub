@@ -19,7 +19,7 @@ const useGoogleLogin = () => {
           user_name: user.displayName,
           email: user.email,
           google_auth_id: user.uid,
-          profile_pic: user.photoURL,
+          profile_image: user.photoURL,
         };
 
         return fetch("/api/auth/login", {
@@ -32,8 +32,9 @@ const useGoogleLogin = () => {
       })
       .then((response) => {
         console.log("Response status:", response);
-        if (!response.ok)
+        if (!response.ok) {
           throw new Error("Failed to save user in the database.");
+        }
         return response.json();
       })
       .catch((error) => {
