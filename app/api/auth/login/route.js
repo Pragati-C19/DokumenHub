@@ -1,6 +1,6 @@
 // Authentication-related APIs - Google login route
 
-import checkMySQLConnection from "../../../utils/mysql-connection";
+import checkMySQLConnection from "../../../utils/database/mysql-connection";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

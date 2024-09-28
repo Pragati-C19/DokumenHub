@@ -5,7 +5,6 @@ let mongoDb; // Variable to hold the MongoDB connection
 
 // Function to connect to MongoDB
 const checkMongoDBConnection = async () => {
-
   // Check if the MongoDB connection already exists
   if (mongoDb) return Promise.resolve(mongoDb); // Return existing connection as a resolved promise
 
