@@ -1,6 +1,6 @@
 import useGoogleLogin from "../hooks/useGoogleLogin";
 
-const LoginButton = () => {
+const loginButton = () => {
   const { loginWithGoogle, loading, error } = useGoogleLogin();
 
   return (
@@ -17,4 +17,4 @@ const LoginButton = () => {
   );
 };
 
-export default LoginButton;
+export default loginButton;
