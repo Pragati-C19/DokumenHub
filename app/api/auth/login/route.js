@@ -1,37 +1,42 @@
 // Authentication-related APIs - Google login route
 
-import { checkMySQLConnection } from "../../../utils/mysql-connection";
+import checkMySQLConnection from "../../../utils/mysql-connection";
+import { NextResponse } from "next/server";
 
-const loginUser = async (req, res) => {
-  if (req.method === "POST") {
-    const { user_name, email, profile_image, google_auth_id } = req.body;
+export async function POST(req) {
+  try {
+    // Parse request body
+    const { user_name, email, profile_image, google_auth_id } =
+      await req.json();
 
-    try {
-      const db = await checkMySQLConnection();
-      const [existingUser] = await db.query(
-        "SELECT user_name, user_email, profile_image, google_auth_id FROM users_table WHERE google_auth_id = ?",
-        [google_auth_id]
+    // Connect to the database
+    const db = await checkMySQLConnection();
+
+    console.log("fn: checkMySQLConnection() : db : ", db);
+
+    // Check if the user already exists
+    const [existingUser] = await db.query(
+      "SELECT user_name, user_email, profile_image, google_auth_id FROM users_table WHERE google_auth_id = ?",
+      [google_auth_id]
+    );
+
+    // If user does not exist, insert into the database
+    if (!existingUser.length) {
+      await db.query(
+        "INSERT INTO users_table (user_name, user_email, profile_image, google_auth_id, created_at) VALUES (?, ?, ?, ?, NOW())",
+        [user_name, email, profile_image, google_auth_id]
       );
-
-      if (!existingUser.length) {
-        await db.query(
-          "INSERT INTO users_table (user_name, user_email, profile_image, google_auth_id, created_at) VALUES (?, ?, ?, ?, NOW())",
-          [user_name, email, profile_image, google_auth_id]
-        );
-      }
-
-      res
-        .status(200)
-        .json({ statusCode: 200, message: "User authenticated and stored!" });
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ statusCode: 500, message: "Error storing user in database." });
     }
-  } else {
-    res.status(405).json({ statusCode: 405, message: "Method not allowed." });
-  }
-};
 
-export default loginUser;
+    return NextResponse.json({
+      statusCode: 200,
+      message: "User authenticated and stored!",
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({
+      statusCode: 500,
+      message: "Error storing user in database.",
+    });
+  }
+}
