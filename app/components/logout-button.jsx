@@ -1,6 +1,6 @@
 import useGoogleLogout from "../hooks/useGoogleLogout";
 
-const logoutButton = () => {
+const LogoutButton = () => {
   const { logoutWithGoogle, loading, error } = useGoogleLogout();
 
   return (
@@ -18,4 +18,4 @@ const logoutButton = () => {
   );
 };
 
-export default logoutButton;
+export default LogoutButton;
