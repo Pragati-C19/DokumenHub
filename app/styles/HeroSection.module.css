@@ -1,5 +1,10 @@
-.heroSectionImg {
-  background-image: url("../public/hero-section-bg.png");
-  background-size: cover;
-  background-position: center;
+.para {
+  text-indent: 4em; /* Adjust the value as needed for indentation */
+  margin-left: -1em;
 }
+
+.styleButton {
+  border: 2px solid transparent;
+  margin-left: 265px;
+}
+
