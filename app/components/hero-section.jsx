@@ -15,7 +15,7 @@ const HeroSection = () => {
   return (
     <section className="relative h-screen overflow-hidden">
       <Image
-        alt="Mountains"
+        alt="Hero Section Background"
         src={background}
         placeholder="blur"
         quality={100}
