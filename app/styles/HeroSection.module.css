@@ -1,10 +1,8 @@
 .para {
   text-indent: 4em; /* Adjust the value as needed for indentation */
-  margin-left: -1em;
+  margin-left: -1.5em;
 }
 
 .styleButton {
-  border: 2px solid transparent;
   margin-left: 265px;
 }
-
