@@ -1,7 +1,16 @@
 // Landing page (for non-logged-in users)
 
-export default function HomePage() {
+import Header from './components/header'
+import HeroSection from "./components/hero-section"
+import Footer from './components/footer';
+
+export default function LandingPage() {
   return (
-      <h1 className="text-3xl font-bold">Hello, DokumenHub!</h1>
+    <>
+      <Header />
+      <HeroSection />
+      <main className="text-3xl font-bold">Hello, DokumenHub!</main>
+      <Footer />
+    </>
   );
 }
