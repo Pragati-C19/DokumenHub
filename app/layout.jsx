@@ -4,6 +4,7 @@ import React from 'react';
 import './styles/globals.css';
 import Header from './components/header'
 import Footer from './components/footer';
+import HeroSection from "./components/hero-section"
 
 const RootLayout = ({ children }) => {
   return (
@@ -18,6 +19,7 @@ const RootLayout = ({ children }) => {
       </head>
       <body>
         <Header />
+        <HeroSection />
         <main>{children}</main>
         <Footer />
       </body>
