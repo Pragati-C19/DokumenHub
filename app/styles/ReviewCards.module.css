@@ -1,10 +1,9 @@
-/* styles.css */
-.swiper-container {
-    padding: 20px; /* Adjust padding as needed */
-  }
-  
-  .swiper-slide {
-    display: flex; /* Ensure that content inside is aligned properly */
-    justify-content: center;
-  }
-  
+
+.noScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.noScrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
