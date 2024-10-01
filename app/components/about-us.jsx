@@ -12,7 +12,7 @@ const AboutUs = () => {
         className={`${styles.bgCustomBackground} flex items-center justify-center py-20`}>
         <div className="text-center">
           <h2 className="mt-14 text-4xl font-serif font-bold mb-10">
-            What’s the secret sauce?
+            What’s the Secret Sauce?
           </h2>
           <p className="mb-16 mt-12 text-lg font-serif max-w-7xl text-gray-800 px-20">
             Forget the days of lost files and messy email chains. With
