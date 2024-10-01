@@ -1,0 +1,10 @@
+/* styles.css */
+.swiper-container {
+    padding: 20px; /* Adjust padding as needed */
+  }
+  
+  .swiper-slide {
+    display: flex; /* Ensure that content inside is aligned properly */
+    justify-content: center;
+  }
+  
