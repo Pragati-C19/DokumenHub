@@ -1,3 +1,7 @@
+// Logout Button
+
+'use client'; // Add this directive to make it a Client Component
+
 import useGoogleLogout from "../hooks/useGoogleLogout";
 
 const LogoutButton = () => {

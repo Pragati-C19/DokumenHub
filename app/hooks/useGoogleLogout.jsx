@@ -1,10 +1,16 @@
+// Logout button Hook
+
+'use client'; // Add this directive to make it a Client Component
+
 import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase/firebase-init";
+import { useRouter } from 'next/navigation'
 
 const useGoogleLogout = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const router = useRouter()
 
   const logoutWithGoogle = () => {
     setLoading(true);
@@ -15,6 +21,7 @@ const useGoogleLogout = () => {
       .then(() => {
         console.log("User Logout successfully.");
         // Optionally, handle post-logout actions here (like redirecting)
+        router.push('/')
       })
       .catch((err) => {
         // Capture any errors that occur during sign out
