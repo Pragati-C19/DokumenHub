@@ -42,11 +42,11 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 mt-40 items-left justify-center h-full text-left text-black p-2">
-        <h1 className="text-4xl md:text-6xl font-serif mb-8 px-20">
+        <h1 className="text-4xl text-blue-200 md:text-6xl font-serif mb-8 px-20">
           Unleash Your Productivity
         </h1>
-        <h1 className="text-4xl md:text-6xl font-serif px-40">
-          with <span className="text-pink-200">DokumenHub</span>
+        <h1 className="text-4xl text-blue-200 md:text-6xl font-serif px-40">
+          with <span className="text-gray-800">DokumenHub</span>
         </h1>
         <button
           onClick={loginWithGoogle}
