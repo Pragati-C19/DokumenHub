@@ -3,6 +3,7 @@
 "use client"; // Add this directive to make it a Client Component
 
 import Image from "next/image";
+import useSlider from '../hooks/useSlider';
 import profilepic1 from "../public/profile-icons/profile-pic1.png";
 import profilepic2 from "../public/profile-icons/profile-pic2.png";
 import profilepic3 from "../public/profile-icons/profile-pic3.png";
@@ -62,30 +63,41 @@ const reviews = [
 ];
 
 const ReviewCards = () => {
+  const { currentIndex } = useSlider(reviews.length);
+
   return (
-    <div className="flex flex-wrap gap-4">
-      {reviews.map((review) => (
-        <div
-          key={review.id}
-          className="p-8 bg-white border border-gray-100 shadow-2xl rounded-3xl shadow-gray-600/10 flex-1">
-          <div className="flex items-center justify-center">
-            <Image
-              src={review.profilePic} // Change this to your logo file
-              alt="profilepic"
-              width={80} // Set width as needed
-              height={80} // Set width as needed
-              className="mr-4" // Add margin to the right of the image
-            />
-            <div>
-              <h6 className="text-lg font-medium text-gray-700">
-                {review.name}
-              </h6>
-              <p className="text-sm text-gray-500">{review.profession}</p>
+    <div className="overflow-hidden py-20 px-32">
+      <h2 className="mt-2 text-4xl font-serif font-bold italic mb-20 text-center">
+      Grapevine Gossip
+          </h2>
+      <div
+        className="flex transition-transform duration-500 ease-in-out"
+        style={{
+          transform: `translateX(-${(currentIndex * 100) / 3}%)`,
+          width: `${(reviews.length * 100) / 3}%`, // Adjust the width based on number of reviews
+        }}
+      >
+        {reviews.map((review) => (
+          <div key={review.id} className="w-full md:w-1/3 p-4">
+            <div className="h-full p-12 bg-white border border-gray-100 shadow-2xl rounded-3xl shadow-gray-600/10 flex flex-col justify-between">
+              <div className="flex flex-col text-center items-center justify-center mb-2 h-full">
+                <Image
+                  src={review.profilePic}
+                  alt="profilepic"
+                  width={80}
+                  height={80}
+                  className="mr-4"
+                />
+                <div>
+                  <h6 className="text-lg font-medium text-gray-700">{review.name}</h6>
+                  <p className="text-sm text-gray-500">{review.profession}</p>
+                </div>
+              </div>
+              <p className="mt-4 text-gray-500 text-center font-serif">{review.feedback}</p>
             </div>
           </div>
-          <p className="mt-4 text-gray-600">{review.feedback}</p>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
