@@ -8,10 +8,7 @@ const checkMongoDBConnection = async () => {
   // Check if the MongoDB connection already exists
   if (mongoDb) return Promise.resolve(mongoDb); // Return existing connection as a resolved promise
 
-  const mongoDbClient = new MongoClient(dbConfig.mongodb.uri, {
-    useNewUrlParser: true, // Use new URL parser
-    useUnifiedTopology: true, // Use the new Server Discover and Monitoring engine
-  });
+  const mongoDbClient = new MongoClient(dbConfig.mongodb.uri);
 
   // Attempt to connect to MongoDB
   return mongoDbClient
