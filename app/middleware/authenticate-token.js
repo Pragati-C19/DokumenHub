@@ -23,7 +23,7 @@ export function authenticateToken(req, next) {
   // If the Authorization header exists, remove 'Bearer' and only keep the token
   const token = authHeader;
 
-  console.log("fn: authenticateToken: token - ", authHeader)
+  console.log("fn: authenticateToken: authHeader, token - ", authHeader, token)
 
   const emptyValues = ["", null, undefined];
 
@@ -48,6 +48,7 @@ export function authenticateToken(req, next) {
 
     } catch (err) {
       // If the token is invalid or expired, return a 403 Forbidden response
+      console.error("JWT verification error:", err); // Log the error for debugging
       return NextResponse.json(
         { statusCode: 403, statusMsg: "Forbidden. Invalid or expired token." },
         { status: 403 }

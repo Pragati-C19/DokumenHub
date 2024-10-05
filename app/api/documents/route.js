@@ -1,14 +1,20 @@
 // Document management APIs -  Get, Create document
 
-import checkMySQLConnection from "../../../utils/database/mysql-connection";
+import checkMySQLConnection from "../../utils/database/mysql-connection";
 import { NextResponse } from "next/server";
+import { authenticateToken } from "@/app/middleware/authenticate-token";
 
 // This function handles GET requests to Fetch the documents
 
-export async function GET(req, { params }) {
-  const userId = params.user_id;
+export async function GET(req) {
 
-  console.log("userID in Get Docs", params.user_id);
+  // Authenticate the token and get the user_id
+  const authResponse = authenticateToken(req, () => {});
+  if (authResponse) return authResponse; // Handle authentication error
+  console.log("fn: GET api/documents : authResponse - ", authResponse);
+
+  const userId = req.user_id; // Get user_id from the authenticated token
+  console.log("fn: GET api/documents : userId - ", userId);
 
   try {
     // Connect to the database
@@ -39,15 +45,17 @@ export async function GET(req, { params }) {
 // This function handles POST requests to Create the document
 
 export async function POST(req, { params }) {
+  
+  // Authenticate the token and get the user_id
+  const authResponse = authenticateToken(req, () => {});
+  if (authResponse) return authResponse; // Handle authentication error
+
+  const userId = req.user_id; // Get user_id from the authenticated token
+  console.log("fn: POST api/documents : userId - ", userId);
+
   try {
     // Parse the incoming request body
     const { documentTitle } = await req.json();
-    const userId = params.user_id;
-    console.log(
-      "fn: api/documents/:user_id : POST : userID, documentTitle - ",
-      userId,
-      documentTitle
-    );
 
     // Connect to the MySQL database
     const db = await checkMySQLConnection();
