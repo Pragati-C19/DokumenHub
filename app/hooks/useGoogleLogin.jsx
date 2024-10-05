@@ -22,9 +22,9 @@ const useGoogleLogin = () => {
         console.log("fn: loginWithGoogle(): result.user", result.user);
 
         const userData = {
-          user_name: user.displayName,
+          username: user.displayName,
           email: user.email,
-          google_auth_id: user.uid,
+          auth_uid: user.uid,
           profile_image: user.photoURL,
         };
 

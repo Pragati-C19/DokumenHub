@@ -2,6 +2,7 @@
 
 import checkMySQLConnection from "../../../utils/database/mysql-connection";
 import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 /*
    Handles POST requests for Google login authentication.
@@ -18,25 +19,26 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   try {
     // Parse request body to get user details
-    const { user_name, email, profile_image, google_auth_id } =
-      await req.json();
+    const { username, email, profile_image, auth_uid } = await req.json();
+
+    // console.log("username, email, auth_id : ", username, email, auth_uid )
 
     // Connect to the database
     const db = await checkMySQLConnection();
 
-    console.log("fn: checkMySQLConnection() : db : ", db);
+    //console.log("fn: checkMySQLConnection() : db : ", db);
 
-    // Check if the user already exists based on google_auth_id
+    // Check if the user already exists based on auth_uid
     const [existingUser] = await db.query(
-      "SELECT user_name, user_email, profile_image, google_auth_id FROM users_table WHERE google_auth_id = ?",
-      [google_auth_id]
+      "SELECT username, email, profile_image, auth_uid FROM users_table WHERE auth_uid = ?",
+      [auth_uid]
     );
 
     // If the user does not exist, insert their details into the database
     if (!existingUser.length) {
       await db.query(
-        "INSERT INTO users_table (user_name, user_email, profile_image, google_auth_id, created_at) VALUES (?, ?, ?, ?, NOW())",
-        [user_name, email, profile_image, google_auth_id]
+        "INSERT INTO users_table (username, email, profile_image, auth_uid, created_at) VALUES (?, ?, ?, ?, NOW())",
+        [username, email, profile_image, auth_uid]
       );
 
       return NextResponse.json({
@@ -44,10 +46,14 @@ export async function POST(req) {
         message: "User authenticated and stored!",
       });
     } else {
+      // JWT Token Code
+      const jwtToken = jwt.sign(auth_uid, process.env.JWT_SECRET_KEY);
+
       // If the user already exists, return a message indicating this
       return NextResponse.json({
         statusCode: 200,
         message: "User already exists.",
+        jwtToken: jwtToken,
       });
     }
   } catch (error) {
