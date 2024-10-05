@@ -5,24 +5,25 @@ import { NextResponse } from "next/server";
 import { authenticateToken } from "../../../middleware/authenticate-token";
 
 // This function handles GET requests to Fetch the specific document
-// GET {{dokumenhub_base_url}}/documents/[document_id]
+// GET http://localhost:3000/api/documents/:document_id
 
 export async function GET(req, { params }) {
-  const { document_id } = params; // Extract user_id and document_id from params
+  // Authenticate the token
+  const authId = authenticateToken(req);
+  console.log("fn: GET api/documents/:document_id : authId - ", authId);
 
-  // Authenticate the request and get the user_id
-  const user_id = authenticateToken(req);
-  console.log("fn: api/documents/[document_id] : GET - ", user_id);
-
-  if (!user_id || typeof user_id === "object") return user_id; // Handle authentication error
+  const { document_id } = params; // Extract document_id from params
 
   try {
     const db = await checkMySQLConnection();
 
     // Fetch the specific document that belongs to the user
     const [document] = await db.query(
-      "SELECT document_id, document_title, created_at, updated_at FROM documents_table WHERE document_id = ? AND owner_id = ?",
-      [document_id, user_id] // Ensure the document belongs to the user
+      `SELECT d.*
+       FROM documents_table d
+       JOIN users_table u ON d.user_id = u.id
+       WHERE d.document_id = ? AND u.auth_uid = ?`,
+      [document_id, authId] // Ensure the document belongs to the user
     );
 
     if (document.length === 0) {
@@ -52,15 +53,14 @@ export async function GET(req, { params }) {
 }
 
 // This function handles PUT requests to update the specific document
+// PUT http://localhost:3000/api/documents/:document_id
 
-export async function PUT(req) {
-  const { document_id } = req.params; // Extract document_id from params
+export async function PUT(req, { params }) {
+  // Authenticate the token
+  const authId = authenticateToken(req);
+  console.log("fn: PUT api/documents/:document_id : authId - ", authId);
 
-  // Authenticate the token and get the user_id
-  const authResponse = authenticateToken(req, () => {});
-  if (authResponse) return authResponse; // Handle authentication error
-
-  const user_id = req.user_id; // Get user_id from the authenticated token
+  const { document_id } = params; // Extract document_id from params
 
   try {
     const { document_title } = await req.json();
@@ -78,8 +78,11 @@ export async function PUT(req) {
 
     const db = await checkMySQLConnection();
     const [result] = await db.query(
-      "UPDATE documents_table SET document_title = ?, updated_at = NOW() WHERE document_id = ? AND owner_id = ?",
-      [document_title, document_id, user_id] // Ensure the document belongs to the user
+      `UPDATE documents_table d
+       JOIN users_table u ON d.user_id = u.id
+       SET d.document_title = ?, d.updated_at = NOW()
+       WHERE d.document_id = ? AND u.auth_uid = ?`,
+      [document_title, document_id, authId] // Ensure the document belongs to the user
     );
 
     if (result.affectedRows === 0) {
@@ -108,22 +111,24 @@ export async function PUT(req) {
   }
 }
 
-// This function handles DELETE requests to SOft Delete the document (Move to Trash)
+// This function handles DELETE requests to Soft Delete the document (Move to Trash)
+// DELETE http://localhost:3000/api/documents/:document_id
 
 export async function DELETE(req, { params }) {
+  // Authenticate the token
+  const authId = authenticateToken(req);
+  console.log("fn: DELETE api/documents/:document_id : authId - ", authId);
+
   const { document_id } = params; // Extract document_id from params
-
-  // Authenticate the token and get the user_id
-  const authResponse = authenticateToken(req, () => {});
-  if (authResponse) return authResponse; // Handle authentication error
-
-  const user_id = req.user_id; // Get user_id from the authenticated token
 
   try {
     const db = await checkMySQLConnection();
     const [result] = await db.query(
-      "UPDATE documents_table SET deleted_at = NOW() WHERE document_id = ? AND owner_id = ?",
-      [document_id, user_id] // Ensure the document belongs to the user
+      `UPDATE documents_table d
+       JOIN users_table u ON d.user_id = u.id
+       SET d.deleted_at = NOW()
+       WHERE d.document_id = ? AND u.auth_uid = ?`,
+      [document_id, authId] // Ensure the document belongs to the user
     );
 
     if (result.affectedRows === 0) {

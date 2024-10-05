@@ -2,19 +2,15 @@
 
 import checkMySQLConnection from "../../utils/database/mysql-connection";
 import { NextResponse } from "next/server";
-import { authenticateToken } from "@/app/middleware/authenticate-token";
+import { authenticateToken } from "../../middleware/authenticate-token";
 
 // This function handles GET requests to Fetch the documents
+// GET http://localhost:3000/api/documents
 
 export async function GET(req) {
-
-  // Authenticate the token and get the user_id
-  const authResponse = authenticateToken(req, () => {});
-  if (authResponse) return authResponse; // Handle authentication error
-  console.log("fn: GET api/documents : authResponse - ", authResponse);
-
-  const userId = req.user_id; // Get user_id from the authenticated token
-  console.log("fn: GET api/documents : userId - ", userId);
+  // Authenticate the token 
+  const authId = authenticateToken(req);
+  console.log("fn: GET api/documents : authId - ", authId);
 
   try {
     // Connect to the database
@@ -22,8 +18,12 @@ export async function GET(req) {
 
     // Fetch documents associated with the user
     const [documents] = await db.query(
-      "SELECT * FROM documents_table WHERE owner_id = ?",
-      [userId]
+      `SELECT documents_table.*, users_table.* 
+       FROM documents_table 
+       INNER JOIN users_table 
+       ON documents_table.user_id = users_table.id 
+       WHERE users_table.auth_uid = ?`,
+      [authId]
     );
 
     return NextResponse.json({
@@ -43,15 +43,12 @@ export async function GET(req) {
 }
 
 // This function handles POST requests to Create the document
+// POST http://localhost:3000/api/documents
 
-export async function POST(req, { params }) {
-  
-  // Authenticate the token and get the user_id
-  const authResponse = authenticateToken(req, () => {});
-  if (authResponse) return authResponse; // Handle authentication error
-
-  const userId = req.user_id; // Get user_id from the authenticated token
-  console.log("fn: POST api/documents : userId - ", userId);
+export async function POST(req) {
+  // Authenticate the token 
+  const authId = authenticateToken(req);
+  console.log("fn: GET api/documents : authId - ", authId);
 
   try {
     // Parse the incoming request body
@@ -62,8 +59,11 @@ export async function POST(req, { params }) {
 
     // Insert a new document into the documents_table
     const [result] = await db.query(
-      "INSERT INTO documents_table (owner_id, document_title, created_at, updated_at) VALUES (?, ?, NOW(), NOW())",
-      [userId, documentTitle] // Use user_id as owner_id
+      `INSERT INTO documents_table (user_id, document_title, created_at, updated_at)
+       SELECT u.id, ?, NOW(), NOW()
+       FROM users_table u
+       WHERE u.auth_uid = ?`,
+      [documentTitle, authId] // Use user_id as owner_id
     );
 
     // Get the ID of the newly created document
@@ -78,7 +78,6 @@ export async function POST(req, { params }) {
       document: {
         id: newDocumentId, // Get the ID of the newly created document
         documentTitle: documentTitle,
-        userId: userId,
       },
     });
   } catch (error) {
