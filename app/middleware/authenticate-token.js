@@ -41,10 +41,10 @@ export function authenticateToken(req, next) {
       console.log("decoded - ", decoded)
 
       // If the token is valid, decoded contains the payload (e.g., user_id, iat, exp)
-      req.user_id = decoded.user_id; // Attach user_id to the request object
+      req.auth_uid = decoded.auth_uid; // Attach user_id to the request object
 
       // If the token is valid, return the user_id from the decoded payload
-      return req.user_id; 
+      return req.auth_uid; 
 
     } catch (err) {
       // If the token is invalid or expired, return a 403 Forbidden response

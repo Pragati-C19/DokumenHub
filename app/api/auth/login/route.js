@@ -47,7 +47,7 @@ export async function POST(req) {
       });
     } else {
       // JWT Token Code
-      const jwtToken = jwt.sign(auth_uid, process.env.JWT_SECRET_KEY);
+      const jwtToken = jwt.sign({auth_uid : auth_uid}, process.env.JWT_SECRET_KEY);
 
       // If the user already exists, return a message indicating this
       return NextResponse.json({
