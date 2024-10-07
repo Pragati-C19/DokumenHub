@@ -1,6 +1,7 @@
 // Document management APIs -  Get, Create document
 
 import checkMySQLConnection from "../../utils/database/mysql-connection";
+import checkMongoDBConnection from "../../utils/database/mongodb-connection";
 import { NextResponse } from "next/server";
 import { authenticateToken } from "../../middleware/authenticate-token";
 
@@ -8,7 +9,7 @@ import { authenticateToken } from "../../middleware/authenticate-token";
 // GET http://localhost:3000/api/documents
 
 export async function GET(req) {
-  // Authenticate the token 
+  // Authenticate the token
   const authId = authenticateToken(req);
   console.log("fn: GET api/documents : authId - ", authId);
 
@@ -46,16 +47,24 @@ export async function GET(req) {
 // POST http://localhost:3000/api/documents
 
 export async function POST(req) {
-  // Authenticate the token 
+  // Authenticate the token
   const authId = authenticateToken(req);
-  console.log("fn: GET api/documents : authId - ", authId);
+  console.log("fn: POST api/documents : authId - ", authId);
 
   try {
     // Parse the incoming request body
-    const { documentTitle } = await req.json();
+    const { document_title, content } = await req.json();
 
-    // Connect to the MySQL database
-    const db = await checkMySQLConnection();
+    if (!document_title || !content) {
+      return NextResponse.json(
+        { success: false, message: "Document title and content are required." },
+        { status: 400 }
+      );
+    }
+
+    const db = await checkMySQLConnection(); // Connect to the MySQL database
+    const mongoDb = await checkMongoDBConnection(); // Connect to MongoDB
+    const collection = mongoDb.collection("document_content_collection"); // Access 'documents' collection
 
     // Insert a new document into the documents_table
     const [result] = await db.query(
@@ -63,21 +72,26 @@ export async function POST(req) {
        SELECT u.id, ?, NOW(), NOW()
        FROM users_table u
        WHERE u.auth_uid = ?`,
-      [documentTitle, authId] // Use user_id as owner_id
+      [document_title, authId] // Use user_id as owner_id
     );
 
     // Get the ID of the newly created document
-    const newDocumentId = result.insertId;
+    const documentId = result.insertId;
 
-    // Optionally, you can also save content to MongoDB if you need to
-    // (You will need to implement the MongoDB insert logic here if needed)
+    await collection.insertOne({
+      document_id: documentId,
+      content: content,
+      created_at: new Date(),
+      updated_at: new Date(),
+    }); // Insert new document
 
     return NextResponse.json({
       success: true,
       message: "Document created successfully.",
       document: {
-        id: newDocumentId, // Get the ID of the newly created document
-        documentTitle: documentTitle,
+        document_id: documentId, // Get the ID of the newly created document
+        documentTitle: document_title,
+        content: content,
       },
     });
   } catch (error) {
