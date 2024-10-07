@@ -1,11 +1,13 @@
 // Closed Sidebar
 
+"use client"; // Add this directive to make it a Client Component
+
 import { FaUser, FaSearch, FaHome, FaFileAlt, FaShareAlt, FaTrash, FaSignOutAlt } from "react-icons/fa"; // Icons
 import Image from "next/image";
 import logo from "../public/logo.png";
 
 
-const SidebarClosed = ({ toggleSidebar }) => {
+const SidebarClosed = ({ toggleSidebar, logoutWithGoogle }) => {
   return (
     <div className="w-20 h-screen bg-gray-700 flex flex-col items-center relative transition-width duration-300">
       

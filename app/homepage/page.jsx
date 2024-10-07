@@ -1,14 +1,19 @@
 // Home page (after login)
 
-import LogoutButton from "../components/logout-button";
+import Sidebar from '../components/sidebar';
 
 const Homepage = () => {
 
   return (
-    <div>
-      <LogoutButton />
-      <h1>Welcome to the Homepage</h1>
-      <p>This is your main page content.</p>
+    <div className="flex min-h-screen">
+      {/* Sidebar Component */}
+      <Sidebar />
+
+      {/* Main content */}
+      <div className="flex-1 bg-gray-100 p-6">
+        <h1 className="text-3xl font-bold mb-4">Homepage Content</h1>
+        <p className="text-lg">This is where your homepage content will go.</p>
+      </div>
     </div>
   );
 };

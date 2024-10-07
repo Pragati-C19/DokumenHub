@@ -3,6 +3,7 @@
 "use client"; // Add this directive to make it a Client Component
 
 import useSidebarToggle from "../hooks/useSidebarToggle"; 
+import useGoogleLogout from "../hooks/useGoogleLogout";
 import SidebarOpen from "./sidebar-open";
 import SidebarClosed from "./sidebar-close";
 import profilepic1 from "../public/profile-icons/profile-pic1.png"
@@ -10,6 +11,7 @@ import profilepic1 from "../public/profile-icons/profile-pic1.png"
 const Sidebar = () => {
 
   const { isOpen, toggleSidebar } = useSidebarToggle();
+  const { logoutWithGoogle} = useGoogleLogout();
 
   const profileData = {
     profileImage: profilepic1,
@@ -20,9 +22,9 @@ const Sidebar = () => {
   return (
     <div className="flex">
       {isOpen ? (
-        <SidebarOpen profileData={profileData} toggleSidebar={toggleSidebar} />
+        <SidebarOpen profileData={profileData} toggleSidebar={toggleSidebar} logoutWithGoogle={logoutWithGoogle}/>
       ) : (
-        <SidebarClosed toggleSidebar={toggleSidebar} />
+        <SidebarClosed toggleSidebar={toggleSidebar} logoutWithGoogle={logoutWithGoogle}/>
       )}
     </div>
   );

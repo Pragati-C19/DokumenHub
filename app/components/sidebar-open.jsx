@@ -1,10 +1,12 @@
 // Opened Sidebar
 
+"use client"; // Add this directive to make it a Client Component
+
 import { FaHome, FaTrash, FaSignOutAlt, FaFileAlt, FaShareAlt } from "react-icons/fa"; // Icons
 import Image from "next/image";
 import logo from "../public/logo.png";
 
-const SidebarOpen = ({ profileData, toggleSidebar }) => {
+const SidebarOpen = ({ profileData, toggleSidebar, logoutWithGoogle }) => {
 
   return (
     <div className="w-64 h-screen bg-gray-700 relative transition-width duration-300 font-serif">
@@ -61,17 +63,16 @@ const SidebarOpen = ({ profileData, toggleSidebar }) => {
             <FaTrash className="text-white text-lg" />
             <span className="ml-4 text-white">Trash</span>
           </div>
-          <div className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer">
+          <button className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer" onClick={logoutWithGoogle}>
             <FaSignOutAlt className="text-white text-lg" />
             <span className="ml-4 text-white">Log Out</span>
-          </div>
+          </button>
       </div>
 
       {/* Copyright */}
       <div className="absolute bottom-4 text-gray-400 text-sm font-serif px-1">
             <p>Pragati_C19, &copy; 2024 DokumenHub.😻</p>
         </div>
-      
     </div>
   );
 };
