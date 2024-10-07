@@ -1,5 +1,7 @@
 // Document management APIs -  Get, Create, Update document content
 
+// TODO: Page Deletion is Remain
+
 import checkMongoDBConnection from "../../../../utils/database/mongodb-connection";
 import { NextResponse } from "next/server";
 
