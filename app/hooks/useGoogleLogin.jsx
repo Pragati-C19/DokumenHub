@@ -28,7 +28,7 @@ const useGoogleLogin = () => {
           profile_image: user.photoURL,
         };
 
-        router.push('/homepage')
+        router.push('/hub/homepage')
         
         return fetch("/api/auth/login", {
           method: "POST",

@@ -3,13 +3,15 @@
 import React from 'react';
 import Sidebar from '../components/sidebar';
 
-const HomepageLayout = ({ children }) => {
+const HubLayout = ({ children }) => {
     return (
         <div className="flex min-h-screen">
         <Sidebar />
+        <div className="flex-1 bg-gradient-to-br from-pink-200 to-blue-300 p-4">
         {children}
+      </div>
       </div>
     );
 };
 
-export default HomepageLayout;
+export default HubLayout;

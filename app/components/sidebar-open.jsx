@@ -5,6 +5,7 @@
 import { FaHome, FaTrash, FaSignOutAlt, FaFileAlt, FaShareAlt } from "react-icons/fa"; // Icons
 import Image from "next/image";
 import logo from "../public/logo.png";
+import Link from "next/link";
 
 const SidebarOpen = ({ profileData, toggleSidebar, logoutWithGoogle }) => {
 
@@ -47,22 +48,22 @@ const SidebarOpen = ({ profileData, toggleSidebar, logoutWithGoogle }) => {
 
       {/* Sidebar Section */}
       <div className="flex flex-col mt-5 space-y-2 p-3">
-      <div className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer">
+      <Link href={"/hub/homepage"} className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer">
             <FaHome className="text-white text-lg" />
             <span className="ml-4 text-white">Home</span>
-          </div>
-          <div className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer">
+          </Link>
+          <Link href={"/hub/documents"} className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer">
             <FaFileAlt className="text-white text-lg" />
             <span className="ml-4 text-white">Your Documents</span>
-          </div>
-          <div className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer">
+          </Link>
+          <Link href={"/hub/shared"} className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer">
             <FaShareAlt className="text-white text-lg" />
             <span className="ml-4 text-white">Shared Documents</span>
-          </div>
-          <div className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer">
+          </Link>
+          <Link href={"/hub/trash"} className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer">
             <FaTrash className="text-white text-lg" />
             <span className="ml-4 text-white">Trash</span>
-          </div>
+          </Link>
           <button className="flex items-center px-4 py-2 hover:bg-gray-800 rounded-full cursor-pointer" onClick={logoutWithGoogle}>
             <FaSignOutAlt className="text-white text-lg" />
             <span className="ml-4 text-white">Log Out</span>
