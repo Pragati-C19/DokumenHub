@@ -2,17 +2,18 @@
 
 "use client"; // Add this directive to make it a Client Component
 
-import useSidebarToggle from "../hooks/useSidebarToggle"; 
-import useAuth from "../hooks/useAuth";
+import useSidebarToggle from "../../hooks/useSidebarToggle"; 
+import useAuth from "../../hooks/useAuth";
 import SidebarOpen from "./sidebar-open";
 import SidebarClosed from "./sidebar-close";
-import profilepic1 from "../public/profile-icons/profile-pic1.png"
+import profilepic1 from "../../public/profile-icons/profile-pic1.png"
 
 const Sidebar = () => {
 
   const { isOpen, toggleSidebar } = useSidebarToggle();
   const { logoutWithGoogle } = useAuth();
 
+  // TODO: Need to add actual user Data from backend
   const profileData = {
     profileImage: profilepic1,
     username: "John Doe",

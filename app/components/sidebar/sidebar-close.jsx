@@ -2,9 +2,10 @@
 
 "use client"; // Add this directive to make it a Client Component
 
-import { FaUser, FaSearch, FaHome, FaFileAlt, FaShareAlt, FaTrash, FaSignOutAlt } from "react-icons/fa"; // Icons
+import { FaUser, FaHome, FaFileAlt, FaShareAlt, FaTrash, FaSignOutAlt } from "react-icons/fa"; 
 import Image from "next/image";
-import logo from "../public/logo.png";
+import logo from "../../public/logo.png";
+import Link from "next/link";
 
 
 const SidebarClosed = ({ toggleSidebar, logoutWithGoogle }) => {
@@ -15,9 +16,9 @@ const SidebarClosed = ({ toggleSidebar, logoutWithGoogle }) => {
     <div className="bg-pink-200" onClick={toggleSidebar}>
         <div className="flex mt-3 mb-2 p-4" >
         <Image
-            src={logo} // Change this to your logo file
+            src={logo} 
             alt="DokumenHub Logo"
-            width={50} // Set width as needed
+            width={50} 
             height={40}
             className="mr-2"
           />
@@ -26,13 +27,15 @@ const SidebarClosed = ({ toggleSidebar, logoutWithGoogle }) => {
 
       {/* Condensed Icons for Closed Sidebar */}
       <div className="flex flex-col items-center mt-12 space-y-8">
+
+        {/* TODO: User's actual Pic should be Displayed here instead of FaUser */}
+        
         <FaUser className="text-white text-xl" />
-        <FaSearch className="text-white text-xl" />
-        <FaHome className="text-white text-xl" />
-        <FaFileAlt className="text-white text-xl" />
-        <FaShareAlt className="text-white text-xl" />
-        <FaTrash className="text-white text-xl" />
-        <FaSignOutAlt className="text-white text-xl" />
+        <Link href={"/hub/homepage"}><FaHome className="text-white text-xl" /></Link>
+        <Link href={"/hub/documents"}><FaFileAlt className="text-white text-xl" /></Link>
+        <Link href={"/hub/shared"}><FaShareAlt className="text-white text-xl" /></Link>
+        <Link href={"/hub/trash"}><FaTrash className="text-white text-xl" /></Link>
+        <FaSignOutAlt className="text-white text-xl" onClick={logoutWithGoogle}/>
       </div>
     </div>
   );

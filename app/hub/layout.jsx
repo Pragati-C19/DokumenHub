@@ -1,7 +1,7 @@
 // Layout page of Home page (after login)
 
 import React from 'react';
-import Sidebar from '../components/sidebar';
+import Sidebar from '../components/sidebar/sidebar-navigation';
 
 const HubLayout = ({ children }) => {
     return (

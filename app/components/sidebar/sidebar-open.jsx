@@ -2,9 +2,9 @@
 
 "use client"; // Add this directive to make it a Client Component
 
-import { FaHome, FaTrash, FaSignOutAlt, FaFileAlt, FaShareAlt } from "react-icons/fa"; // Icons
+import { FaHome, FaTrash, FaSignOutAlt, FaFileAlt, FaShareAlt } from "react-icons/fa"; 
 import Image from "next/image";
-import logo from "../public/logo.png";
+import logo from "../../public/logo.png";
 import Link from "next/link";
 
 const SidebarOpen = ({ profileData, toggleSidebar, logoutWithGoogle }) => {
@@ -16,9 +16,9 @@ const SidebarOpen = ({ profileData, toggleSidebar, logoutWithGoogle }) => {
       <div className="bg-pink-200 flex">
         <div className="flex mt-3 mb-2 p-4 items-center" onClick={toggleSidebar}>
         <Image
-            src={logo} // Change this to your logo file
+            src={logo} 
             alt="DokumenHub Logo"
-            width={50} // Set width as needed
+            width={50}
             height={40}
             className="mr-2"
           />
@@ -27,7 +27,8 @@ const SidebarOpen = ({ profileData, toggleSidebar, logoutWithGoogle }) => {
       </div>
 
       {/* Profile Section */}
-      <div className="flex flex-col items-center mt-4 space-y-2">
+      {/* TODO: User's actuall data need to add here */}
+      <div className="flex flex-col items-center mt-6 space-y-2">
         <div>
          <Image src={profileData.profileImage} alt="Profile" className="rounded-full" width={40} height={40} />
         </div>
@@ -38,6 +39,7 @@ const SidebarOpen = ({ profileData, toggleSidebar, logoutWithGoogle }) => {
       </div>
 
       {/* Search Bar */}
+      {/* TODO: Search Bar Logic needs to user here */}
       <div className="px-6 mt-10">
         <input
           type="text"
