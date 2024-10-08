@@ -2,15 +2,17 @@
 
 "use client"; // Add this directive to make it a Client Component
 
-import { useGreeting } from '../hooks/useGreeting';
+import { useGreeting } from '../../hooks/useGreeting';
 import Link from 'next/link';
 
 export default function Greeting() {
-  const username = 'Pragati Chothe'; // This will be dynamic from your backend later
+
+  // TODO: Username should come from backend
+  const username = 'Pragati Chothe'; 
   const greeting = useGreeting(username);
 
   return (
-    <div className="p-20 flex flex-col font-serif bg-gray-100 h-full w-full">
+    <div>
       {/* Greeting */}
       <h1 className="text-3xl font-bold mb-8 flex flex-col items-center">{greeting}</h1>
 
@@ -27,13 +29,6 @@ export default function Greeting() {
             Getting Started
           </Link>
         </div> 
-      </div>
-
-      {/* Recent Pages Section Placeholder */}
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Recent Documents</h2>
-        {/* Grid and List view will come here */}
-        <p className='flex justify-center'>Not Visited Any Documents Yet.</p>
       </div>
     </div>
   );
