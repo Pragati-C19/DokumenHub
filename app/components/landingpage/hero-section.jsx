@@ -4,10 +4,10 @@
 
 import React from "react";
 import Image from "next/image";
-import background from "../public/bg-hero-section.png";
-import logo from "../public/logo.png";
-import styles from "../styles/HeroSection.module.css";
-import useAuth from "../hooks/useAuth";
+import background from "../../public/bg-hero-section.png";
+import logo from "../../public/logo.png";
+import styles from "../../styles/HeroSection.module.css";
+import useAuth from "../../hooks/useAuth";
 
 const HeroSection = () => {
   const { loginWithGoogle, loading} = useAuth();
@@ -28,9 +28,9 @@ const HeroSection = () => {
       <div className="absolute top-4 left-28 right-28 flex justify-between items-center p-6">
         <div className="flex items-center">
           <Image
-            src={logo} // Change this to your logo file
+            src={logo} 
             alt="DokumenHub Logo"
-            width={80} // Set width as needed
+            width={80}
           />
         </div>
         <button

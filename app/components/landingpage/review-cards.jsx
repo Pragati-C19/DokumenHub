@@ -3,13 +3,13 @@
 "use client"; // Add this directive to make it a Client Component
 
 import Image from "next/image";
-import styles from "../styles/ReviewCards.module.css";
-import profilepic1 from "../public/profile-icons/profile-pic1.png";
-import profilepic2 from "../public/profile-icons/profile-pic2.png";
-import profilepic3 from "../public/profile-icons/profile-pic3.png";
-import profilepic4 from "../public/profile-icons/profile-pic4.png";
-import profilepic5 from "../public/profile-icons/profile-pic5.png";
-import profilepic6 from "../public/profile-icons/profile-pic6.png";
+import styles from "../../styles/ReviewCards.module.css";
+import profilepic1 from "../../public/profile-icons/profile-pic1.png";
+import profilepic2 from "../../public/profile-icons/profile-pic2.png";
+import profilepic3 from "../../public/profile-icons/profile-pic3.png";
+import profilepic4 from "../../public/profile-icons/profile-pic4.png";
+import profilepic5 from "../../public/profile-icons/profile-pic5.png";
+import profilepic6 from "../../public/profile-icons/profile-pic6.png";
 
 const reviews = [
   {

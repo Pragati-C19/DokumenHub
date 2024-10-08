@@ -2,7 +2,7 @@
 
 "use client"; // Add this directive to make it a Client Component
 
-import styles from "../styles/AboutUs.module.css";
+import styles from "../../styles/AboutUs.module.css";
 import AboutUsCards from "./about-us-cards";
 
 const AboutUs = () => {

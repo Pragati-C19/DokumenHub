@@ -4,7 +4,7 @@
 
 import React from "react";
 import Image from "next/image";
-import background from "../public/bg-footer1.png";
+import background from "../../public/bg-footer1.png";
 
 const Footer = () => {
   return (
