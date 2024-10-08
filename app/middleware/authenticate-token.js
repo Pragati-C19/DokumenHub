@@ -21,7 +21,7 @@ export function authenticateToken(req, next) {
   const authHeader = req.headers.get("Authorization");
 
   // If the Authorization header exists, remove 'Bearer' and only keep the token
-  const token = authHeader;
+  const token = authHeader && authHeader.split(' ')[1];
 
   console.log("fn: authenticateToken: authHeader, token - ", authHeader, token)
 
