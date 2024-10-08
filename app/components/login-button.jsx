@@ -1,7 +1,7 @@
 
 // TODO: Page Deletion is Remain
 
-import useGoogleLogin from "../hooks/useGoogleLogin";
+import useGoogleLogin from "../hooks/useAuth";
 
 const LoginButton = () => {
   const { loginWithGoogle, loading, error } = useGoogleLogin();

@@ -7,10 +7,10 @@ import Image from "next/image";
 import background from "../public/bg-hero-section.png";
 import logo from "../public/logo.png";
 import styles from "../styles/HeroSection.module.css";
-import useGoogleLogin from "../hooks/useGoogleLogin";
+import useAuth from "../hooks/useAuth";
 
 const HeroSection = () => {
-  const { loginWithGoogle, loading, error } = useGoogleLogin();
+  const { loginWithGoogle, loading} = useAuth();
 
   return (
     <section className="relative h-screen overflow-hidden">

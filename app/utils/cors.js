@@ -1,3 +1,5 @@
+// TODO: Page Deletion is Remain
+
 export const allowCors = (fn) => async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader("Access-Control-Allow-Origin", "*"); // Change this to a specific origin if needed
