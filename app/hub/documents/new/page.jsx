@@ -1,16 +1,21 @@
-// New Document Creation 
+// Text Editor Component
 
-const Documents = () => {
+'use client'; // Add this directive to make it a Client Component
 
-    return (
-      <>
-        {/* Main content */}
-        <div className="flex-1 bg-gray-100 p-6">
-          <h1 className="text-3xl font-bold mb-4">New Document</h1>
-          <p className="text-lg">This is where your New Document Appears.</p>
-        </div>
-      </>
-    );
+import TextEditor from "@/app/components/editor/text-editor";
+import { useState } from "react";
+
+export default function EditorPage() {
+  const [content, setContent] = useState("<p>Hello World!</p>");
+
+  const handleChange = (newContent) => {
+    setContent(newContent); // Update content state
   };
-  
-  export default Documents;
+
+  return (
+    <div className="max-w-3xl mx-auto py-5">
+      <h1 className="text-2xl font-bold mb-4">Rich Text Editor</h1>
+      <TextEditor content={content} onChange={handleChange} />
+    </div>
+  );
+}
