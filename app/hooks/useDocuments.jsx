@@ -5,13 +5,6 @@
 // hooks/useDocuments.js
 import { useState, useEffect } from "react";
 
-// Dummy data to simulate API response
-const dummyDocuments = [
-  { title: "Document 1", content: "This is content 1", user_id: 1, updated_at: new Date() },
-  { title: "Document 2", content: "This is content 2", user_id: 2, updated_at: new Date() },
-  { title: "Document 3", content: "This is content 3", user_id: 3, updated_at: new Date() }
-];
-
 // Hook for fetching and managing documents
 const useDocuments = () => {
   const [documents, setDocuments] = useState([]);

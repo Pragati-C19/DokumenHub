@@ -2,30 +2,37 @@
 
 "use client"; // Add this directive to make it a Client Component
 
-import useSidebarToggle from "../../hooks/useSidebarToggle"; 
+import useSidebarToggle from "../../hooks/useSidebarToggle";
 import useAuth from "../../hooks/useAuth";
 import SidebarOpen from "./sidebar-open";
 import SidebarClosed from "./sidebar-close";
-import profilepic1 from "../../public/profile-icons/profile-pic1.png"
 
 const Sidebar = () => {
-
   const { isOpen, toggleSidebar } = useSidebarToggle();
   const { logoutWithGoogle } = useAuth();
 
-  // TODO: Need to add actual user Data from backend
   const profileData = {
-    profileImage: profilepic1,
-    username: "John Doe",
-    email: "john.doe@example.com",
+    profileImage: localStorage.getItem("profile_image"),
+    username: localStorage.getItem("username"),
+    email: localStorage.getItem("email"),
   };
+
+  // console.log("fn: Sidebar(): profileData - ", profileData)
 
   return (
     <div className="flex">
       {isOpen ? (
-        <SidebarOpen profileData={profileData} toggleSidebar={toggleSidebar} logoutWithGoogle={logoutWithGoogle}/>
+        <SidebarOpen
+          profileData={profileData}
+          toggleSidebar={toggleSidebar}
+          logoutWithGoogle={logoutWithGoogle}
+        />
       ) : (
-        <SidebarClosed toggleSidebar={toggleSidebar} logoutWithGoogle={logoutWithGoogle}/>
+        <SidebarClosed
+          profileData={profileData}
+          toggleSidebar={toggleSidebar}
+          logoutWithGoogle={logoutWithGoogle}
+        />
       )}
     </div>
   );
