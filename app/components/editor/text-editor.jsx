@@ -1,5 +1,7 @@
 // Text Editor Component
 
+// TODO: Page Deletion is Remain
+
 'use client'; // Add this directive to make it a Client Component
 
 import { useEditor, EditorContent } from "@tiptap/react";

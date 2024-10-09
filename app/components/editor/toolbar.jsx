@@ -1,5 +1,7 @@
 // Toolbar for Text Editor Component
 
+// TODO: Page Deletion is Remain
+
 'use client'; // Add this directive to make it a Client Component
 
 import { List } from "lucide-react";
@@ -108,8 +110,8 @@ export default function ToolBar({ editor }) {
         <button
           key={i}
           size="sm"
-          pressed={option.pressed}
-          onPressedChange={option.onClick}
+          
+          onClick={option.onclick}
         >
           {option.icon}
         </button>
