@@ -30,29 +30,33 @@ const useAuth = () => {
         };
 
         router.push('/hub/homepage')
-        
+
         return fetch("/api/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(userData),
+        })
+        .then((response) => {
+          console.log("Response status:", response);
+          console.log("User Login successfully.");
+          return response.json();
+        
+        }).then((data) => {
+          console.log("data status:", data);
+          localStorage.setItem("token", data.jwtToken)
+          return data
+        })
+        .catch((error) => {
+          console.error(error)
+          setError(error.message);
+        })
+        .finally(() => {
+          setLoading(false);
         });
       })
-      .then((response) => {
-        console.log("Response status:", response);
-        if (!response.ok) {
-          throw new Error("Failed to save user in the database.");
-        }
-        console.log("User Login successfully.");
-        return response.json();
-      })
-      .catch((error) => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      
   };
 
   // Logout User

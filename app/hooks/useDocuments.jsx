@@ -23,7 +23,7 @@ const useDocuments = () => {
   const fetchDocuments = async () => {
     setLoading(true);
     try {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoX3VpZCI6IkxJYnF2TlVKTGViQnAxZGhUeXc1eWVXaUxkejIiLCJpYXQiOjE3MjgzNzk3OTd9.eZYMBtzN-mXF2TgfRZRf0Ab4jSJqN2iOMuT3pT16m1M" // Or however you're storing the token
+        const token = localStorage.getItem("token") // Or however you're storing the token
         console.log("fn: fetchDocuments(): getToken : ", token)
 
         const response = await fetch("/api/documents", {
