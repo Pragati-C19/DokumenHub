@@ -4,38 +4,54 @@
 
 import { FaTrash } from "react-icons/fa"; // Importing list and grid icons
 import Link from "next/link";
+import background from "../../public/documents_bg1.png";
+import Image from "next/image";
+import { formatDistanceToNow } from "date-fns"; //to get relative time like second ago min ago
 
 export default function GridView({ documents }) {
   return (
     <>
       {/* Enhanced Grid View - Cool Card Design */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14 font-serif">
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 font-serif">
         {documents.map((doc, index) => (
           <div
             key={index}
-            className="relative w-full h-64 bg-gray-200 rounded-lg shadow-lg overflow-hidden flex flex-col justify-between">
-            {/* Top Half with Background Color and Document Name */}
-            <Link href={`/hub/documents/${doc.document_id}`} className="flex items-center justify-center bg-opacity-50 h-1/2">
-              <h2 className="text-black text-xl font-bold text-center px-4">
-                {doc.document_title}
-              </h2>
-            </Link>
+            className="relative w-full h-60 flex flex-col justify-between">
+            {/* Background Image */}
+            <Image
+              alt={doc.document_title}
+              src={background}
+              placeholder="blur"
+              quality={100}
+              width={500}
+              height={100}
+              objectFit="cover"
+              className="absolute inset-0 z-0" // Ensures image is behind content
+            />
 
-            {/* Bottom Half with Owner Name, Updated At, and Delete Icon */}
-            <div className="bg-white h-1/2 p-9 flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 mb-2">
-                  <strong>Owner :</strong> {doc.username}
+            {/* Title and Owner Name Together */}
+            <div className="flex flex-col items-center justify-center z-10 p-2">
+              <Link
+                href={`/hub/documents/${doc.document_id}`}
+                className="text-center text-black text-l font-bold mt-16">
+                {doc.document_title}
+              </Link>
+              <p className="text-gray-600 font-sans mb-1">{doc.username}</p>
+              <div className="flex items-center space-x-20 justify-between z-10">
+                {/* Updated At */}
+                <p className="text-gray-500 font-sans text-sm">
+                  {formatDistanceToNow(new Date(doc.updated_at), {
+                    addSuffix: true,
+                  })}
                 </p>
-                <p className="text-gray-500 font-sans italic">
-                  Updated At : {new Date(doc.updated_at).toLocaleString()}
-                </p>
+
+                {/* Delete Icon */}
+                <button
+                  className="text-red-600 hover:text-red-800"
+                  title="Delete Document">
+                  <FaTrash size={20} />
+                </button>
               </div>
-              <button
-                className="text-red-600 hover:text-red-800"
-                title="Delete Document">
-                <FaTrash size={20} />
-              </button>
             </div>
           </div>
         ))}

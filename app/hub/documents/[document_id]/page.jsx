@@ -1,6 +1,6 @@
 // Specific Docs
 
-'use client'; // Add this directive to make it a Client Component
+"use client"; // Add this directive to make it a Client Component
 
 import React, { useEffect, useState } from "react";
 import EditorJsHolder from "@/app/components/editor/editor-js-holder";
@@ -11,7 +11,7 @@ const UpdateDocument = ({ params }) => {
   const { getDocumentById, saveDocument } = useDocuments(); // Destructure the functions from the hook
   const [initialData, setInitialData] = useState([]);
 
-  console.log("fn: UpdateDocument() : id - ", document_id)
+  console.log("fn: UpdateDocument() : id - ", document_id);
 
   useEffect(() => {
     const fetchDocument = async () => {
@@ -30,11 +30,13 @@ const UpdateDocument = ({ params }) => {
     }
   };
 
-  console.log("fn: UpdateDocument(): initialData - ", initialData)
+  console.log("fn: UpdateDocument(): initialData - ", initialData);
 
   return (
     <div className="items-center flex flex-col">
-      {initialData && <EditorJsHolder initialData={initialData} onSave={handleSave} />}
+      {initialData && (
+        <EditorJsHolder initialData={initialData} onSave={handleSave} />
+      )}
     </div>
   );
 };

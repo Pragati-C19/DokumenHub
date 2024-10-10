@@ -1,6 +1,6 @@
 // Sidebar Toggle Hook - It handles if sidebar is open or closed
 
-'use client'; // Add this directive to make it a Client Component
+"use client"; // Add this directive to make it a Client Component
 
 import { useState } from "react";
 

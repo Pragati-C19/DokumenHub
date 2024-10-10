@@ -21,9 +21,9 @@ export function authenticateToken(req, next) {
   const authHeader = req.headers.get("Authorization");
 
   // If the Authorization header exists, remove 'Bearer' and only keep the token
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = authHeader && authHeader.split(" ")[1];
 
-  console.log("fn: authenticateToken: authHeader, token - ", authHeader, token)
+  console.log("fn: authenticateToken: authHeader, token - ", authHeader, token);
 
   const emptyValues = ["", null, undefined];
 
@@ -38,14 +38,13 @@ export function authenticateToken(req, next) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-      console.log("decoded - ", decoded)
+      console.log("decoded - ", decoded);
 
       // If the token is valid, decoded contains the payload (e.g., user_id, iat, exp)
       req.auth_uid = decoded.auth_uid; // Attach user_id to the request object
 
       // If the token is valid, return the user_id from the decoded payload
-      return req.auth_uid; 
-
+      return req.auth_uid;
     } catch (err) {
       // If the token is invalid or expired, return a 403 Forbidden response
       console.error("JWT verification error:", err); // Log the error for debugging

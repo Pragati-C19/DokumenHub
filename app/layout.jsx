@@ -1,12 +1,11 @@
 // Root Layout page for landing page and all pages too.
 
-import React from 'react';
-import './styles/globals.css';
+import React from "react";
+import "./styles/globals.css";
 
 export const metadata = {
   title: "DokumenHub",
   description: "This is a Collaborative Document Editing Platform",
-  icon: '/favicon.ico',
 };
 
 const RootLayout = ({ children }) => {
@@ -18,9 +17,7 @@ const RootLayout = ({ children }) => {
           rel="stylesheet"
         />
       </head>
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 };

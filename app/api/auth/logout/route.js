@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"; // Import NextResponse for handling 
 import { auth } from "../../../utils/firebase/firebase-init"; // Import Firebase auth instance
 import { signOut } from "firebase/auth"; // Import signOut function from Firebase Auth
 
-// Logout API work will be handle at on client side 
+// Logout API work will be handle at on client side
 
 export async function POST(req) {
   try {

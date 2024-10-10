@@ -1,8 +1,7 @@
-// hooks/useDocumentList.js
+// Hook for CRUD Documents 
 
 "use client"; // Add this directive to make it a Client Component
 
-// hooks/useDocuments.js
 import { useState, useEffect } from "react";
 
 // Hook for fetching and managing documents
@@ -72,7 +71,7 @@ const useDocuments = () => {
   const saveDocument = async (documentId, documentData) => {
     const method = documentId ? "PUT" : "POST";
     const url = documentId ? `/api/documents/${documentId}` : "/api/documents";
-    const token = localStorage.getItem("token"); // Or however you're storing the token
+    const token = localStorage.getItem("token");
 
     try {
       const response = await fetch(url, {
@@ -98,7 +97,7 @@ const useDocuments = () => {
 
   //INFO: Function Create document for testing
   const createDocument = async (documentData) => {
-    const token = localStorage.getItem("token"); // Or however you're storing the token
+    const token = localStorage.getItem("token"); 
 
     try {
       const response = await fetch("/api/documents", {
@@ -125,7 +124,7 @@ const useDocuments = () => {
 
   // Function to delete a document
   const deleteDocument = async (documentId) => {
-    const token = localStorage.getItem("token"); // Or however you're storing the token
+    const token = localStorage.getItem("token");
 
     try {
       const response = await fetch(`/api/documents/${documentId}`, {

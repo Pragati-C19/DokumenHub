@@ -2,20 +2,20 @@
 
 "use client"; // Add this directive to make it a Client Component
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export const useGreeting = (username) => {
-  const [greeting, setGreeting] = useState('');
+  const [greeting, setGreeting] = useState("");
 
   useEffect(() => {
     const currentHour = new Date().getHours();
-    let greet = '';
+    let greet = "";
     if (currentHour < 12) {
-      greet = 'Good Morning 😶‍🌫️';
+      greet = "Good Morning 😶‍🌫️";
     } else if (currentHour < 18) {
-      greet = 'Good Afternoon 😎';
+      greet = "Good Afternoon 😎";
     } else {
-      greet = 'Good Evening 👻';
+      greet = "Good Evening 👻";
     }
     setGreeting(`${greet}, ${username}`);
   }, [username]);

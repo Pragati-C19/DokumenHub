@@ -64,7 +64,6 @@ const EDITOR_TOOLS = {
 };
 
 const EditorJsHolder = ({ initialData, onSave }) => {
-
   const [title, setTitle] = useState("");
 
   const editorRef = useRef(null); // Reference to the Editor.js instance

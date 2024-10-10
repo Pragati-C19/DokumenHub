@@ -1,16 +1,15 @@
 /* global.css or your main CSS file */
 body {
-    font-family: 'Comic Sans MS', cursive, sans-serif; /* Cartoonish vibe */
-  }
-  
-  .editor-container {
-    background-color: #fff; /* White background for editor */
-    border: 1px solid #ddd; /* Light border */
-    border-radius: 10px; /* Rounded corners */
-  }
-  
-  .toolbar {
-    background-color: #e7f1ff; /* Light blue for toolbar */
-    border-radius: 10px; /* Rounded corners */
-  }
-  
+  font-family: "Comic Sans MS", cursive, sans-serif; /* Cartoonish vibe */
+}
+
+.editor-container {
+  background-color: #fff; /* White background for editor */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.toolbar {
+  background-color: #e7f1ff; /* Light blue for toolbar */
+  border-radius: 10px; /* Rounded corners */
+}
