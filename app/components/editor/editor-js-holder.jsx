@@ -1,150 +1,169 @@
-// This is my Editorjs component, better if make a seperate component and use it
+// This is my Editorjs component
 
-import React, { useEffect, useRef, useState } from "react";
+'use client'; // Add this directive to make it a Client Component
+
+import React, { useState, useEffect, useRef } from "react";
 import EditorJS from "@editorjs/editorjs";
-import CheckList from "@editorjs/checklist";
-import Code from "@editorjs/code";
-import Delimiter from "@editorjs/delimiter";
-import Embed from "@editorjs/embed";
-import ImageTool from "@editorjs/image";
-import InlineCode from "@editorjs/inline-code";
-import List from "@editorjs/list";
-import Quote from "@editorjs/quote";
-import Table from "@editorjs/table";
-import SimpleImage from "@editorjs/simple-image";
-import Paragraph from "@editorjs/paragraph";
 import Header from "@editorjs/header";
-import Raw from "@editorjs/raw";
+import Paragraph from "@editorjs/paragraph";
+import List from "@editorjs/list";
+import CheckList from "@editorjs/checklist";
+import Quote from "@editorjs/quote";
+import Code from "@editorjs/code";
+import Table from "@editorjs/table";
+import Embed from "@editorjs/embed";
+import styles from "../../styles/EditorJSHolder.module.css";
+
+//  Configuration for Editor.js tools.
 
 const EDITOR_TOOLS = {
-    header: {
-        class: Header,
-        inlineToolbar: true,
-        config: {
-          placeholder: "Enter a header",
-          levels: [1, 2, 3, 4],
-          defaultLevel: 1,
-        },
+  header: {
+    class: Header,
+    inlineToolbar: true,
+    config: {
+      placeholder: "Enter a header",
+      levels: [1, 2, 3, 4],
+      defaultLevel: 1,
+    },
+  },
+  paragraph: {
+    class: Paragraph,
+    inlineToolbar: true,
+  },
+  list: {
+    class: List,
+    inlineToolbar: true,
+  },
+  checklist: {
+    class: CheckList,
+    inlineToolbar: true,
+  },
+  quote: {
+    class: Quote,
+    inlineToolbar: true,
+  },
+  code: {
+    class: Code,
+    inlineToolbar: true,
+  },
+  table: {
+    class: Table,
+    inlineToolbar: true,
+  },
+  embed: {
+    class: Embed,
+    inlineToolbar: false,
+    config: {
+      services: {
+        youtube: true,
+        twitter: true,
+        // Add more services if needed
       },
-      paragraph: {
-        class: Paragraph,
-        inlineToolbar: true,
-      },
-      list: {
-        class: List,
-        inlineToolbar: true,
-      },
-      checklist: {
-        class: CheckList,
-        inlineToolbar: true,
-      },
-      quote: {
-        class: Quote,
-        inlineToolbar: true,
-      },
-      code: {
-        class: Code,
-        inlineToolbar: true,
-      },
-      delimiter: Delimiter,
-      embed: {
-        class: Embed,
-        inlineToolbar: false,
-        config: {
-          services: {
-            youtube: true,
-            twitter: true,
-            // Add more services if needed
-          },
-        },
-      },
-      table: {
-        class: Table,
-        inlineToolbar: true,
-      },
-      image: {
-        class: ImageTool,
-        inlineToolbar: true,
-        config: {
-          endpoints: {
-            byFile: "/api/uploadFile", // Your backend file uploader endpoint
-            byUrl: "/api/fetchUrl", // Your endpoint that provides uploading by URL
-          },
-          field: "file",
-          additionalRequestHeaders: {
-            // Add any headers if needed
-          },
-          captions: true, // Enable image captions
-          buttonContent: "Upload Image", // Custom button text
-        },
-      },
-      simpleImage: SimpleImage,
-      inlineCode: {
-        class: InlineCode,
-        shortcut: "CMD+SHIFT+C",
-      },
-      raw: Raw,
+    },
+  },
 };
 
-function EditorJsHolder({ data, onChange, holder }) {
-  //add a reference to editor
-  const ref = useRef();
-  //initialize editorjs
+const EditorJsHolder = ({ holder }) => {
+
+    const [content, setContent] = useState(null);
+  const [title, setTitle] = useState('');
+
+  const editorRef = useRef(null); // Reference to the Editor.js instance
+
   useEffect(() => {
-    //initialize editor if we don't have a reference
-    if (!ref.current) {
+    if (!editorRef.current) {
+      // Initialize Editor.js only once
       const editor = new EditorJS({
         holder: holder,
         autofocus: true,
         placeholder: "Start writing here...",
         tools: EDITOR_TOOLS,
-        data: data || {},
-        inlineToolbar: true,
-        logLevel: "ERROR",
+        data: content || {}, // Load initial data if provided
         onReady: () => {
-          ref.current = editor;
-        },
-        onChange: async () => {
-          try {
-            const content = await ref.current.save();
-            onChange && onChange(content);
-          } catch (error) {
-            console.error("Error saving content:", error);
-          }
-        },
-        // Enable Drag-and-Drop Images
-        dragAndDrop: {
-          enabled: true,
-          files: (files) => {
-            // Handle file uploads if needed
-            console.log("Dropped files:", files);
-          },
+          editorRef.current = editor;
         },
       });
-      ref.current = editor;
     }
 
-    //add a return function handle cleanup
+    // Cleanup Editor.js instance on component unmount
     return () => {
-      if (ref.current && ref.current.destroy) {
-        ref.current.destroy();
+      if (editorRef.current) {
+        editorRef.current.destroy();
+        editorRef.current = null;
       }
     };
   }, []);
 
+  const handleSave = (content) => {
+    const documentData = {
+      title,
+      content,
+      savedAt: new Date().toISOString(),
+    };
+    // Here, you can send the documentData to a backend or store it locally
+    // For simplicity, we'll store it in state
+    setContent(documentData);
+    alert('Document saved successfully!');
+    console.log('Saved Document:', documentData);
+  };
+
+  const saveEditorContent = async () => {
+    try {
+      const content = await editorRef.current.save();
+      handleSave(content);
+    } catch (error) {
+      console.error('Saving failed: ', error);
+    }
+  };
+
   return (
     <>
-      <div
-        id={holder}
-        style={{
-          width: "100%",
-          minHeight: 500,
-          borderRadius: " 7px",
-          background: "fff",
-        }}
-      />
+      <div className="w-full max-w-4xl ">
+        {/* Document Title Input */}
+        <div className="p-3">
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className={`${styles.titleStyle} py-3 px-4 font-bold text-2xl font-serif`}
+            placeholder="Enter your document title..."
+          />
+        </div>
+
+        {/* Editor.js Container */}
+        <div
+          id={holder}
+          className={`${styles.editorjsContainer} ${styles.noScrollbar} overflow-y-auto py-5`}
+        ></div>
+
+        {/* Save Button */}
+        <div className="mt-3 flex justify-center font-serif">
+          <button
+            onClick={saveEditorContent}
+            className={`${styles.customButton}`}
+          >
+            Save Document
+          </button>
+        </div>
+
+        {/* Display Saved Document (For Demonstration)
+        {content && (
+          <div className="mt-6 p-4 rounded font-serif">
+            <h2 className="text-xl mb-2">Saved Document</h2>
+            <p>
+              <strong>Title:</strong> {content.title}
+            </p>
+            <p>
+              <strong>Saved At:</strong> {new Date(content.savedAt).toLocaleString()}
+            </p>
+            <pre className="mt-2 bg-gray-200 p-2 rounded overflow-auto">
+              {JSON.stringify(content.content, null, 2)}
+            </pre>
+          </div>
+        )} */}
+      </div>
     </>
   );
-}
+
+};
 
 export default EditorJsHolder;
