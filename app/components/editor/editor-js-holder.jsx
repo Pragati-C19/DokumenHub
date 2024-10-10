@@ -1,6 +1,6 @@
 // This is my Editorjs component
 
-'use client'; // Add this directive to make it a Client Component
+"use client"; // Add this directive to make it a Client Component
 
 import React, { useState, useEffect, useRef } from "react";
 import EditorJS from "@editorjs/editorjs";
@@ -13,6 +13,7 @@ import Code from "@editorjs/code";
 import Table from "@editorjs/table";
 import Embed from "@editorjs/embed";
 import styles from "../../styles/EditorJSHolder.module.css";
+import useDocuments from "@/app/hooks/useDocuments";
 
 //  Configuration for Editor.js tools.
 
@@ -63,10 +64,11 @@ const EDITOR_TOOLS = {
   },
 };
 
-const EditorJsHolder = ({ holder }) => {
-
-    const [content, setContent] = useState(null);
-  const [title, setTitle] = useState('');
+const EditorJsHolder = () => {
+  const [content, setContent] = useState(null);
+  const [title, setTitle] = useState("");
+  const { getDocumentById, saveDocument, createDocument, deleteDocument } =
+    useDocuments();
 
   const editorRef = useRef(null); // Reference to the Editor.js instance
 
@@ -74,7 +76,7 @@ const EditorJsHolder = ({ holder }) => {
     if (!editorRef.current) {
       // Initialize Editor.js only once
       const editor = new EditorJS({
-        holder: holder,
+        holder: "editorjs",
         autofocus: true,
         placeholder: "Start writing here...",
         tools: EDITOR_TOOLS,
@@ -94,17 +96,17 @@ const EditorJsHolder = ({ holder }) => {
     };
   }, []);
 
-  const handleSave = (content) => {
+  const handleSave = async (content) => {
     const documentData = {
-      title,
-      content,
+      document_title: title,
+      content: content,
       savedAt: new Date().toISOString(),
     };
-    // Here, you can send the documentData to a backend or store it locally
-    // For simplicity, we'll store it in state
+
+    console.log("fn: handleSave(): documentData - ", documentData);
+
+    createDocument(documentData);
     setContent(documentData);
-    alert('Document saved successfully!');
-    console.log('Saved Document:', documentData);
   };
 
   const saveEditorContent = async () => {
@@ -112,7 +114,7 @@ const EditorJsHolder = ({ holder }) => {
       const content = await editorRef.current.save();
       handleSave(content);
     } catch (error) {
-      console.error('Saving failed: ', error);
+      console.error("Saving failed: ", error);
     }
   };
 
@@ -131,16 +133,14 @@ const EditorJsHolder = ({ holder }) => {
 
         {/* Editor.js Container */}
         <div
-          id={holder}
-          className={`${styles.editorjsContainer} ${styles.noScrollbar} overflow-y-auto py-5`}
-        ></div>
+          id="editorjs"
+          className={`${styles.editorjsContainer} ${styles.noScrollbar} overflow-y-auto py-5`}></div>
 
         {/* Save Button */}
         <div className="mt-3 flex justify-center font-serif">
           <button
             onClick={saveEditorContent}
-            className={`${styles.customButton}`}
-          >
+            className={`${styles.customButton}`}>
             Save Document
           </button>
         </div>
@@ -163,7 +163,6 @@ const EditorJsHolder = ({ holder }) => {
       </div>
     </>
   );
-
 };
 
 export default EditorJsHolder;
