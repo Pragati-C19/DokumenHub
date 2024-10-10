@@ -4,6 +4,7 @@
 
 import style from "../../styles/ReviewCards.module.css";
 import { FaTrash, FaFileAlt } from "react-icons/fa"; // Importing list and grid icons
+import Link from "next/link";
 
 export default function ListView({ documents, view, documentView }) {
   return (
@@ -26,17 +27,17 @@ export default function ListView({ documents, view, documentView }) {
               <tr
                 key={index}
                 className="hover:bg-gray-100 text-center align-middle">
-                <td className="py-2 px-4 border-b text-center">
+                <td className="py-2 px-4 text-center">
                   <button className="text-purple-600 hover:text-purple-800">
                     <FaFileAlt />
                   </button>
                 </td>
-                <td className="py-2 px-4 border-b">{doc.document_title}</td>
-                <td className="py-2 px-4 border-b">{doc.username}</td>
-                <td className="py-2 px-4 border-b">
+                <Link href={`/hub/documents/${doc.document_id}`}><td className="py-2 px-4 ">{doc.document_title}</td></Link>
+                <td className="py-2 px-4 ">{doc.username}</td>
+                <td className="py-2 px-4 ">
                   {new Date(doc.updated_at).toLocaleString()}
                 </td>
-                <td className="py-2 px-4 border-b text-center">
+                <td className="py-2 px-4 text-center">
                   <button
                     className="text-red-600 hover:text-red-800"
                     title="Delete Document">

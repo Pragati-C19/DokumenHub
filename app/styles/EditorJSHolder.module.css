@@ -1,0 +1,48 @@
+.customButton {
+  background: linear-gradient(to bottom, #fffc5f, #fea2a2); /* Gradient */
+  color: black;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px; /* Fully rounded */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Shadow */
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  width: 50%;
+}
+
+.customButton:hover {
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Larger shadow on hover */
+  background: linear-gradient(to bottom, #caff5f, #e8a2fe); /* Gradient */
+}
+
+.editorjsContainer {
+  /* border: 1px solid #ccc; */
+  padding: 10px;
+  min-height: 300px;
+  max-height: 600px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  background-color: #fff;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.titleStyle {
+  background-color: white;
+  width: 100%;
+  text-align: center;
+  align-self: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  border: none;
+}
+
+.noScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.noScrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

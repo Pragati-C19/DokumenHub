@@ -1,16 +1,24 @@
-// New Document Creation 
+// Text Editor Component
 
-const Documents = () => {
+'use client'; // Add this directive to make it a Client Component
 
-    return (
-      <>
-        {/* Main content */}
-        <div className="flex-1 bg-gray-100 p-6">
-          <h1 className="text-3xl font-bold mb-4">New Document</h1>
-          <p className="text-lg">This is where your New Document Appears.</p>
-        </div>
-      </>
-    );
+import EditorJsHolder from "@/app/components/editor/editor-js-holder";
+import useDocuments from "@/app/hooks/useDocuments";
+
+export default function NewDocument() {
+
+  const { saveDocument } = useDocuments(); // Destructure the save function
+
+  const handleSave = async (documentData) => {
+    const result = await saveDocument(null, documentData); // No ID for new documents
+    if (result) {
+      alert("Document created successfully!");
+    }
   };
-  
-  export default Documents;
+
+  return (
+    <div className="items-center flex flex-col">
+      <EditorJsHolder onSave={handleSave}/>
+    </div>
+  );
+}
