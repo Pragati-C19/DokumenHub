@@ -3,6 +3,7 @@
 "use client"; // Add this directive to make it a Client Component
 
 import { FaTrash } from "react-icons/fa"; // Importing list and grid icons
+import Link from "next/link";
 
 export default function GridView({ documents }) {
   return (
@@ -14,11 +15,11 @@ export default function GridView({ documents }) {
             key={index}
             className="relative w-full h-64 bg-gray-200 rounded-lg shadow-lg overflow-hidden flex flex-col justify-between">
             {/* Top Half with Background Color and Document Name */}
-            <div className="flex items-center justify-center bg-opacity-50 h-1/2">
+            <Link href={`/hub/documents/${doc.document_id}`} className="flex items-center justify-center bg-opacity-50 h-1/2">
               <h2 className="text-black text-xl font-bold text-center px-4">
                 {doc.document_title}
               </h2>
-            </div>
+            </Link>
 
             {/* Bottom Half with Owner Name, Updated At, and Delete Icon */}
             <div className="bg-white h-1/2 p-9 flex items-center justify-between">

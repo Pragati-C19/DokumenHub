@@ -96,7 +96,7 @@ const useDocuments = () => {
     }
   };
 
-  // Function to save or update a document
+  //INFO: Function Create document for testing
   const createDocument = async (documentData) => {
     const token = localStorage.getItem("token"); // Or however you're storing the token
 

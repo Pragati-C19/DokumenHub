@@ -13,7 +13,6 @@ import Code from "@editorjs/code";
 import Table from "@editorjs/table";
 import Embed from "@editorjs/embed";
 import styles from "../../styles/EditorJSHolder.module.css";
-import useDocuments from "@/app/hooks/useDocuments";
 
 //  Configuration for Editor.js tools.
 
@@ -64,11 +63,9 @@ const EDITOR_TOOLS = {
   },
 };
 
-const EditorJsHolder = () => {
-  const [content, setContent] = useState(null);
+const EditorJsHolder = ({ initialData, onSave }) => {
+
   const [title, setTitle] = useState("");
-  const { getDocumentById, saveDocument, createDocument, deleteDocument } =
-    useDocuments();
 
   const editorRef = useRef(null); // Reference to the Editor.js instance
 
@@ -80,7 +77,7 @@ const EditorJsHolder = () => {
         autofocus: true,
         placeholder: "Start writing here...",
         tools: EDITOR_TOOLS,
-        data: content || {}, // Load initial data if provided
+        data: initialData || {}, // Load initial data if provided
         onReady: () => {
           editorRef.current = editor;
         },
@@ -94,25 +91,17 @@ const EditorJsHolder = () => {
         editorRef.current = null;
       }
     };
-  }, []);
-
-  const handleSave = async (content) => {
-    const documentData = {
-      document_title: title,
-      content: content,
-      savedAt: new Date().toISOString(),
-    };
-
-    console.log("fn: handleSave(): documentData - ", documentData);
-
-    createDocument(documentData);
-    setContent(documentData);
-  };
+  }, [initialData]);
 
   const saveEditorContent = async () => {
     try {
       const content = await editorRef.current.save();
-      handleSave(content);
+      const documentData = {
+        document_title: title,
+        content: content,
+        savedAt: new Date().toISOString(),
+      };
+      onSave(documentData); // Call the provided onSave function
     } catch (error) {
       console.error("Saving failed: ", error);
     }
@@ -124,6 +113,8 @@ const EditorJsHolder = () => {
         {/* Document Title Input */}
         <div className="p-3">
           <input
+            id="title"
+            type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className={`${styles.titleStyle} py-3 px-4 font-bold text-2xl font-serif`}
