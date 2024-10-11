@@ -2,6 +2,69 @@
 
 DokumenHub is a robust document management application that empowers users to create, edit, and manage their documents efficiently. Leveraging the power of Next.js, MySQL, and MongoDB, DokumenHub offers a seamless user experience with features like secure authentication and an intuitive editor interface inspired by Notion.
 
+## Table of Contents
+
+1. [Features](#features)
+   - User Authentication
+   - Document Management
+     - Create Documents
+     - Edit Documents
+     - Delete Documents
+   - Intuitive Editor Interface
+   - Responsive Design
+   - Consistent Code Formatting
+
+2. [Technologies Used](#technologies-used)
+   - Client-Side
+   - Server-Side
+   - Databases
+   - Authentication
+   - Utilities
+
+3. [Architecture Diagram](#architecture-diagram)
+
+4. [Database Schema](#database-schema)
+   - MySQL
+     - Users Table
+     - Documents Table
+     - Shared Documents Table
+   - MongoDB
+     - Document Content Collection
+
+5. [API Endpoints](#api-endpoints)
+   - Authentication Endpoints
+     - Login User
+   - Document Routes
+     - Get All Documents
+     - Get Document by ID
+     - Create Document
+     - Update Document
+     - Delete Document
+
+6. [Installation](#installation)
+   - Clone the Repository
+   - Install Dependencies
+   - Configure Environment Variables
+   - Run the Application
+
+7. [Usage](#usage)
+   - Access the Application
+   - Sign In
+   - Manage Documents
+
+8. [Styling](#styling)
+
+9. [Figma Design](#figma-design)
+
+10. [UI Design](#ui-design)
+    - Landing Page
+    - Home Page
+    - New Page (Blank Page)
+    - Document List (List View)
+    - Document List (Grid View)
+
+11. [Contributing](#contributing)
+
 ## Features
 
 - **User Authentication:** Secure login using Google Authentication via Firebase, ensuring that user data is protected and accessible only to authorized individuals.
@@ -16,7 +79,6 @@ DokumenHub is a robust document management application that empowers users to cr
 - **Responsive Design:** DokumenHub is fully responsive, ensuring optimal usability across various devices, including desktops, tablets, and smartphones.
   
 - **Consistent Code Formatting:** Utilizes Prettier for maintaining clean and consistent code, enhancing readability and maintainability.
-
 
 ## Technologies Used
 
@@ -47,147 +109,202 @@ DokumenHub is a robust document management application that empowers users to cr
 
 ### MySQL
 
-- Users Table
+- ***Users Table***
 
-| Column          | Type                | Description                            |
-|-----------------|---------------------|----------------------------------------|
-| `id`            | INT, Auto-Increment | Primary Key                            |
-| `email`         | VARCHAR(255)        | Unique user email                      |
-| `username`      | VARCHAR(255)        | User's display name                    |
-| `profile_image` | VARCHAR(255)        | URL to the user's profile image        |
-| `auth_uid`      | VARCHAR(255)        | Unique ID for Firebase authentication  |
-| `created_at`    | DATETIME            | Timestamp when user was created        |
+   | Column          | Type                | Description                            |
+   |-----------------|---------------------|----------------------------------------|
+   | `id`            | INT, Auto-Increment | Primary Key                            |
+   | `email`         | VARCHAR(255)        | Unique user email                      |
+   | `username`      | VARCHAR(255)        | User's display name                    |
+   | `profile_image` | VARCHAR(255)        | URL to the user's profile image        |
+   | `auth_uid`      | VARCHAR(255)        | Unique ID for Firebase authentication  |
+   | `created_at`    | DATETIME            | Timestamp when user was created        |
 
-    
-![ERDiagram3](docs/database/ER-Diagram3.png)
+      
+   ![ERDiagram3](docs/database/ER-Diagram3.png)
 
-- Documents Table
+- ***Documents Table***
 
 
-| Column           | Type                | Description                             |
-|------------------|---------------------|-----------------------------------------|
-| `document_id`    | INT, Auto-Increment | Primary Key                             |
-| `document_title` | VARCHAR(255)        | Title of the document                   |
-| `user_id`        | INT                 | Foreign Key referencing Users.id        |
-| `created_at`     | DATETIME            | Timestamp when document was created     |
-| `updated_at`     | DATETIME            | Timestamp of the last update            |
-| `deleted_at`     | DATETIME            | Timestamp for soft delete management    |
+   | Column           | Type                | Description                             |
+   |------------------|---------------------|-----------------------------------------|
+   | `document_id`    | INT, Auto-Increment | Primary Key                             |
+   | `document_title` | VARCHAR(255)        | Title of the document                   |
+   | `user_id`        | INT                 | Foreign Key referencing Users.id        |
+   | `created_at`     | DATETIME            | Timestamp when document was created     |
+   | `updated_at`     | DATETIME            | Timestamp of the last update            |
+   | `deleted_at`     | DATETIME            | Timestamp for soft delete management    |
 
-![ERDiagram1](docs/database/ER-Diagram1.png)
+   ![ERDiagram1](docs/database/ER-Diagram1.png)
 
-- Shared_Documents Table
+- ***Shared_Documents Table***
 
-| Column            | Type                | Description                                      |
-|-------------------|---------------------|--------------------------------------------------|
-| `shared_id`       | INT, Auto-Increment | Primary Key                                      |
-| `document_id`     | INT                 | Foreign Key referencing Documents.document_id    |
-| `shared_with_id`  | INT                 | Foreign Key referencing Users.user_id            |
-| `shared_at`       | DATETIME            | Timestamp when document was shared               |
+   | Column            | Type                | Description                                      |
+   |-------------------|---------------------|--------------------------------------------------|
+   | `shared_id`       | INT, Auto-Increment | Primary Key                                      |
+   | `document_id`     | INT                 | Foreign Key referencing Documents.document_id    |
+   | `shared_with_id`  | INT                 | Foreign Key referencing Users.user_id            |
+   | `shared_at`       | DATETIME            | Timestamp when document was shared               |
 
-![ERDiagram2](docs/database/ER-Diagram2.png)
+   ![ERDiagram2](docs/database/ER-Diagram2.png)
 
 ### MongoDB
 
-- Document Content Collection
+- ***Document Content Collection***
 
-| Field           | Type   | Description                               |
-|-----------------|--------|-------------------------------------------|
-| `_id`           | ObjectId | Auto-generated unique ID                  |
-| `document_id`   | INT    | References MySQL Documents.document_id    |
-| `content`       | JSON   | Data structure from Editor.js             |
-| `history`       | Array  | Tracks changes and edits                  |
-| `last_modified` | Date   | Timestamp of the last update              |
+   | Field           | Type   | Description                               |
+   |-----------------|--------|-------------------------------------------|
+   | `_id`           | ObjectId | Auto-generated unique ID                  |
+   | `document_id`   | INT    | References MySQL Documents.document_id    |
+   | `content`       | JSON   | Data structure from Editor.js             |
+   | `history`       | Array  | Tracks changes and edits                  |
+   | `last_modified` | Date   | Timestamp of the last update              |
 
-
-## API Design
+## API Endpoints
 
 ### Authentication Endpoints
 
-- `POST /api/auth/login`: Authenticate user via Google login using Firebase.
+- **Login User**
 
-    ![loginApi](docs/api-calls/auth-login.png)
+   - **POST /api/auth/login** : Authenticate user via Google login using Firebase.
 
-- `POST /api/auth/logout`: Logout user and clear session.
+      **Request Body**:
+      ```json
+      {
+            "email": "string",
+            "auth_uid": "string",
+            "profile_image": "string",
+            "username": "string"
+      }
+      ```
 
-### Document Management Endpoints
+      **Response**: JWT token and user details  
 
-- `GET /api/documents`: Fetch all documents for the authenticated user (includes private and shared documents).
+      ![loginApi](docs/api-calls/auth-login.png)
 
-    ![AllDocumentsApi](docs/api-calls/all-documents.png)
+### Document Routes
 
-- `POST /api/documents`: Create a new document in MySQL and save content in MongoDB.
+- **Get All Documents**
 
-    ![CreateDocumentApi](docs/api-calls/create-document.png)
+   - **GET /api/documents**  : Fetch all documents for the authenticated user (includes private and shared documents).
 
-- `GET /api/documents/:id`: Retrieve a specific document and its content.
+      **Response**: List of all documents belonging to the authenticated user  
 
-    ![SpecificDocumentApi](docs/api-calls/specific-document.png)
+      ![AllDocumentsApi](docs/api-calls/all-documents.png)
 
-- `PUT /api/documents/:id`: Update an existing document's title or content.
 
-    ![UpdateDocumentApi](docs/api-calls/update-document.png)
+- **Get Document by ID**
 
-- `DELETE /api/documents/:id`: Move document to trash (soft delete).
+   - **GET /api/documents/:id** : Retrieve a specific document and its content.
 
-    ![DeleteDocumentApi](docs/api-calls/delete-document.png)
+      **Response**: Document details and content for the specified ID  
+
+      ![SpecificDocumentApi](docs/api-calls/specific-document.png)
+
+- **Create Document**
+
+   - **POST /api/documents**  : Create a new document in MySQL and save content in MongoDB.
+
+      **Request Body**:
+      ```json
+      {
+            "document_title": "string",
+            "content": "string"
+      }
+      ```
+
+      **Response**: Success or error message  
+
+      ![CreateDocumentApi](docs/api-calls/create-document.png)
+
+
+- **Update Document**
+
+   - **PUT /api/documents/:id** : Update an existing document's title or content.
+
+      **Request Body**:
+      ```json
+      {
+            "document_title": "string",
+            "content": "string"
+      }
+      ```
+
+      **Response**: Success or error message  
+
+      ![UpdateDocumentApi](docs/api-calls/update-document.png)
+
+- **Delete Document**
+
+   - **DELETE /api/documents/:id** : Move document to trash (soft delete).
+
+      **Response**: Success or error message  
+   
+      ![DeleteDocumentApi](docs/api-calls/delete-document.png)
 
 > **Note:** API for sharing, trash management, and chat is not implemented yet and will be developed in the next phase.
 
 ## Installation
 
-1. **Clone the repository:**
+- **Clone the repository:**
    ```bash
-   git clone https://github.com/Pragati-C19/DokumenHub.git
+      git clone https://github.com/Pragati-C19/DokumenHub.git
    ```
 
-2. **Navigate to the project directory:**
+- **Navigate to the project directory:**
    ```bash
-   cd DokumenHub
+      cd DokumenHub
    ```
 
-3. **Install dependencies:**
+- **Install dependencies:**
    ```bash
-   npm install
+      npm install
    ```
 
-4. **Set up your environment variables in a `.env` file:**
+- **Configure Environment Variables:**
+
+   Create a `.env` file in the root directory and add your environment variables. Example:
+
    ```bash
 
-   # MySql DB Config 
-   MYSQL_HOST=localhost
-   MYSQL_USER=root
-   MYSQL_PASSWORD=your_mysql_password
-   MYSQL_DATABASE=dokumenhub
+      # MySql DB Config 
+      MYSQL_HOST=localhost
+      MYSQL_USER=root
+      MYSQL_PASSWORD=your_mysql_password
+      MYSQL_DATABASE=dokumenhub
 
-   # MongoDB DB Config 
-   MONGODB_URI=mongodb://localhost:27017/?directConnection=true
-   MONGODB_DATABASE=dokumenhub
+      # MongoDB DB Config 
+      MONGODB_URI=mongodb://localhost:27017/?directConnection=true
+      MONGODB_DATABASE=dokumenhub
 
-   # Firebase Google Auth Credentials
-   NEXT_PUBLIC_FIREBASE_APIKEY=your_firebase_api_key
-   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
-   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
-   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
-   NEXT_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
-   NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
+      # Firebase Google Auth Credentials
+      NEXT_PUBLIC_FIREBASE_APIKEY=your_firebase_api_key
+      NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+      NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
+      NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
+      NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
+      NEXT_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
+      NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
 
-   # JWT Token
-   JWT_SECRET_KEY=your_jwt_secret_key
+      # JWT Token
+      JWT_SECRET_KEY=your_jwt_secret_key
    ```
 
+   - **Generate a Random JWT Secret Key**
+
+      Go to the terminal, type `node`, and then follow the command below to generate a random key:
+      ```bash
+         node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+      ```
+   
    > **Note:** Do not expose your `.env` file or commit it to version control. This file contains sensitive information.
 
-   ### Generate a Random JWT Secret Key
+- **Run the application:**
 
-   Go to the terminal, type `node`, and then follow the command below to generate a random key:
-   ```bash
-   node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
-   ```
+   Run the following command to start the server:
 
-5. **Run the application:**
    ```bash
-   npm run dev
+      npm run dev
    ```
 
 ## Usage
@@ -203,7 +320,6 @@ DokumenHub is a robust document management application that empowers users to cr
    - **Edit:** Select a document from your dashboard to edit its content.
    - **Delete:** Remove unwanted documents using the delete icon next to each document.
 
-
 ## Styling
 
 Tailwind CSS is the primary styling framework used. Custom CSS is also added for specific components, such as the scroll bar on the homepage. Configuration files like `tailwind.config.js` allow for further customization.
@@ -214,10 +330,9 @@ The DokumenHub project was thoughtfully designed using Figma to provide users wi
 
 You can explore the complete Figma design, which includes detailed wireframes and interactive prototypes, [by following this link](https://www.figma.com/design/RRMk51aGh2MQlJeRSG3SAm/Aventura?node-id=202-4&t=np8qttwLCJ1sm26K-1). This design serves as a foundational reference for the frontend development process, ensuring consistency and alignment with user needs throughout the project.
 
-
 ## UI Design
 
-**Landing Page**
+- ### ***Landing Page***
 
 ![LandingPage1](docs/ui/landing-page1.png)
 ![LandingPage2](docs/ui/landing-page2.png)
@@ -225,19 +340,19 @@ You can explore the complete Figma design, which includes detailed wireframes an
 ![LandingPage4](docs/ui/landing-page4.png)
 ![LandingPage5](docs/ui/landing-page5.png)
 
-- **Home Page**
+- ### ***Home Page***
 
 ![HomePage](docs/ui/homepage.png)
 
-- **New Page (Blank Page)**
+- ### ***New Page (Blank Page)***
 
 ![NewPage](docs/ui/new-page.png)
 
-- **Document List (List View)**
+- ### ***Document List (List View)***
 
 ![ListViewPage](docs/ui/your-document-list-view.png)
 
-- **Document List (Grid View)**
+- ### ***Document List (Grid View)***
 
 ![GridViewPage](docs/ui/your-document-grid-view.png)
 
